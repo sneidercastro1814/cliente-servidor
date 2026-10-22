@@ -1,0 +1,161 @@
+<div class="contenedor vista">
+  <div class="vista-cabecera">
+    <div>
+      <h1>Catalogo</h1>
+      <p class="subtitulo">
+        @if (paginaActual()) {
+          {{ paginaActual()!.totalElementos }}
+          {{ paginaActual()!.totalElementos === 1 ? 'producto' : 'productos' }}
+          &middot; se muestra la cantidad existente de cada uno
+        } @else {
+          Productos que ofrece Carvajal
+        }
+      </p>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="barra-filtros tarjeta">
+    <label class="filtro filtro-busqueda">
+      <span class="sr-solo">Buscar producto</span>
+      <input
+        #campoBusqueda
+        class="entrada"
+        type="search"
+        placeholder="Buscar por nombre..."
+        (input)="buscar(campoBusqueda.value)"
+      />
+    </label>
+
+    <label class="filtro">
+      <span class="sr-solo">Categoria</span>
+      <select
+        #selectorCategoria
+        class="selector"
+        (change)="cambiarCategoria(selectorCategoria.value)"
+      >
+        <option value="">Todas las categorias</option>
+        @for (categoria of categorias(); track categoria.id) {
+          <option [value]="categoria.id">{{ categoria.nombre }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="filtro filtro-casilla">
+      <input
+        #casillaStock
+        type="checkbox"
+        (change)="alternarSoloConStock(casillaStock.checked)"
+      />
+      <span>Solo con existencias</span>
+    </label>
+  </div>
+
+  @if (aviso()) {
+    <div class="aviso aviso-ok" role="status">
+      <div>{{ aviso() }}</div>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="aviso aviso-peligro" role="alert">
+      <div>{{ error() }}</div>
+    </div>
+  }
+
+  @if (cargando()) {
+    <div class="cargando"><span class="girador"></span> Cargando catalogo...</div>
+  } @else {
+    <div class="rejilla">
+      @for (producto of productos(); track producto.id) {
+        <article class="producto tarjeta">
+          <div class="producto-cuerpo">
+            <div class="producto-meta">
+              <span class="distintivo distintivo-gris">{{ producto.categoria.nombre }}</span>
+              @switch (nivelStock(producto)) {
+                @case ('agotado') {
+                  <span class="distintivo distintivo-peligro">Agotado</span>
+                }
+                @case ('bajo') {
+                  <span class="distintivo distintivo-advertencia">
+                    Quedan {{ producto.stock }}
+                  </span>
+                }
+                @default {
+                  <span class="distintivo distintivo-ok">{{ producto.stock }} disponibles</span>
+                }
+              }
+            </div>
+
+            <h3 class="producto-nombre">{{ producto.nombre }}</h3>
+
+            @if (producto.marca) {
+              <div class="producto-marca">{{ producto.marca }}</div>
+            }
+
+            @if (producto.descripcion) {
+              <p class="producto-descripcion">{{ producto.descripcion }}</p>
+            }
+
+            <div class="producto-sku num">SKU {{ producto.sku }}</div>
+          </div>
+
+          <div class="producto-pie">
+            <div>
+              <div class="producto-precio num">{{ producto.precio | cop }}</div>
+              <div class="producto-stock num">Existencias: {{ producto.stock }}</div>
+            </div>
+
+            @if (yaEstaEnLista(producto)) {
+              <button class="btn btn-secundario btn-sm" type="button" disabled>En tu lista</button>
+            } @else {
+              <button
+                class="btn btn-primario btn-sm"
+                type="button"
+                [disabled]="agregandoId() === producto.id"
+                (click)="agregar(producto)"
+              >
+                @if (agregandoId() === producto.id) {
+                  <span class="girador"></span>
+                } @else {
+                  Agregar a deseos
+                }
+              </button>
+            }
+          </div>
+        </article>
+      } @empty {
+        <div class="vacio tarjeta">
+          <div class="vacio-titulo">Sin resultados</div>
+          No encontramos productos con esos filtros.
+        </div>
+      }
+    </div>
+
+    @if (paginaActual() && paginaActual()!.totalPaginas > 1) {
+      <div class="paginacion">
+        <button
+          class="btn btn-secundario btn-sm"
+          type="button"
+          [disabled]="paginaActual()!.primera"
+          (click)="irAPagina(numeroPagina() - 1)"
+        >
+          Anterior
+        </button>
+
+        <span class="num">
+          Pagina {{ paginaActual()!.pagina + 1 }} de {{ paginaActual()!.totalPaginas }}
+        </span>
+
+        <button
+          class="btn btn-secundario btn-sm"
+          type="button"
+          [disabled]="paginaActual()!.ultima"
+          (click)="irAPagina(numeroPagina() + 1)"
+        >
+          Siguiente
+        </button>
+      </div>
+    }
+  }
+</div>

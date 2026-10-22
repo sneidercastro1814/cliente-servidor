@@ -1,0 +1,131 @@
+.deseos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+}
+
+.deseo {
+  overflow: hidden;
+}
+
+/* Barra lateral de color cuando el deseo tiene problema de stock */
+.deseo-alerta {
+  border-left: 3px solid var(--advertencia);
+}
+
+.deseo-principal {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--esp-4);
+  padding: var(--esp-4) var(--esp-5);
+}
+
+.deseo-info {
+  min-width: 0;
+}
+
+.deseo-distintivos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  margin-bottom: var(--esp-3);
+}
+
+.deseo-nombre {
+  font-size: 1rem;
+  margin-bottom: var(--esp-2);
+}
+
+.deseo-datos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-4);
+  font-size: 0.84rem;
+  color: var(--ink-medio);
+}
+
+.deseo-datos strong {
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.deseo-sku {
+  color: var(--ink-suave);
+  font-size: 0.74rem;
+}
+
+.deseo-mensaje {
+  margin-top: var(--esp-3);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--advertencia);
+}
+
+.deseo-nota {
+  margin-top: var(--esp-2);
+  font-size: 0.84rem;
+  font-style: italic;
+  color: var(--ink-suave);
+}
+
+.deseo-acciones {
+  display: flex;
+  gap: var(--esp-2);
+  flex-shrink: 0;
+}
+
+/* ------------------------------------------------------------- Edicion */
+
+.deseo-edicion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--esp-3);
+  padding: var(--esp-4) var(--esp-5);
+  border-top: 1px solid var(--line);
+  background: var(--surface-alt);
+}
+
+.campo-inline {
+  display: block;
+  margin: 0;
+}
+
+.campo-inline-ancho {
+  flex: 1 1 220px;
+}
+
+.deseo-edicion-botones {
+  display: flex;
+  gap: var(--esp-2);
+  margin-left: auto;
+}
+
+@media (max-width: 640px) {
+  .deseo-principal {
+    flex-direction: column;
+    padding: var(--esp-4);
+  }
+
+  .deseo-acciones {
+    width: 100%;
+  }
+
+  .deseo-acciones .btn {
+    flex: 1;
+  }
+
+  .deseo-edicion {
+    padding: var(--esp-4);
+  }
+
+  .deseo-edicion-botones {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .deseo-edicion-botones .btn {
+    flex: 1;
+  }
+}

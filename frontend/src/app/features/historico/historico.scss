@@ -1,0 +1,21 @@
+.filtros-accion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  margin-bottom: var(--esp-5);
+}
+
+.col-num {
+  text-align: right;
+}
+
+.col-producto {
+  font-weight: 600;
+  min-width: 14rem;
+}
+
+.col-fecha {
+  color: var(--ink-suave);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}

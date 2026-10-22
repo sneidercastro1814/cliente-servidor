@@ -1,0 +1,118 @@
+/* ------------------------------------------------------------------ Filtros */
+
+.barra-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-3);
+  padding: var(--esp-4);
+  margin-bottom: var(--esp-5);
+}
+
+.filtro {
+  margin: 0;
+}
+
+.filtro-busqueda {
+  flex: 1 1 260px;
+}
+
+.filtro-casilla {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  font-size: 0.86rem;
+  color: var(--ink-medio);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ Rejilla */
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+  gap: var(--esp-4);
+}
+
+.rejilla > .vacio {
+  grid-column: 1 / -1;
+}
+
+/* ----------------------------------------------------------------- Producto */
+
+.producto {
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.producto:hover {
+  box-shadow: var(--sombra-alta);
+  transform: translateY(-2px);
+}
+
+.producto-cuerpo {
+  padding: var(--esp-4);
+  flex: 1;
+}
+
+.producto-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-2);
+  margin-bottom: var(--esp-3);
+}
+
+.producto-nombre {
+  font-size: 0.98rem;
+  margin-bottom: var(--esp-1);
+}
+
+.producto-marca {
+  font-size: 0.78rem;
+  color: var(--ink-suave);
+  font-weight: 600;
+  margin-bottom: var(--esp-2);
+}
+
+.producto-descripcion {
+  font-size: 0.83rem;
+  color: var(--ink-medio);
+  margin-bottom: var(--esp-3);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.producto-sku {
+  font-size: 0.72rem;
+  color: var(--ink-suave);
+  letter-spacing: 0.02em;
+}
+
+.producto-pie {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--esp-3);
+  padding: var(--esp-4);
+  border-top: 1px solid var(--line);
+  background: var(--surface-alt);
+  border-radius: 0 0 var(--radio) var(--radio);
+}
+
+.producto-precio {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.producto-stock {
+  font-size: 0.74rem;
+  color: var(--ink-suave);
+  margin-top: 0.1rem;
+}

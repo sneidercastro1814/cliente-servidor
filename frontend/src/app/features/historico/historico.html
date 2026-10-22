@@ -1,0 +1,98 @@
+<div class="contenedor vista">
+  <div class="vista-cabecera">
+    <div>
+      <h1>Historico</h1>
+      <p class="subtitulo">
+        Todo lo que ha pasado por tu lista de deseos, incluso lo que ya eliminaste.
+        @if (pagina()) {
+          &middot; {{ pagina()!.totalElementos }}
+          {{ pagina()!.totalElementos === 1 ? 'movimiento' : 'movimientos' }}
+        }
+      </p>
+    </div>
+  </div>
+
+  <div class="filtros-accion">
+    @for (filtro of filtros; track filtro.etiqueta) {
+      <button
+        class="btn btn-sm"
+        type="button"
+        [class.btn-primario]="accion() === filtro.valor"
+        [class.btn-secundario]="accion() !== filtro.valor"
+        (click)="filtrar(filtro.valor)"
+      >
+        {{ filtro.etiqueta }}
+      </button>
+    }
+  </div>
+
+  @if (error()) {
+    <div class="aviso aviso-info" role="status">
+      <div>{{ error() }}</div>
+    </div>
+  }
+
+  @if (cargando()) {
+    <div class="cargando"><span class="girador"></span> Cargando historico...</div>
+  } @else if (eventos().length > 0) {
+    <div class="tarjeta tabla-envoltura">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Movimiento</th>
+            <th>Producto</th>
+            <th class="col-num">Cantidad</th>
+            <th class="col-num">Precio del dia</th>
+            <th class="col-num">Stock del dia</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (evento of eventos(); track evento.id) {
+            <tr>
+              <td>
+                <span [class]="'distintivo ' + claseAccion(evento.accion)">
+                  {{ evento.accion.toLowerCase() }}
+                </span>
+              </td>
+              <td class="col-producto">{{ evento.productoNombre }}</td>
+              <td class="col-num num">{{ evento.cantidadDeseada }}</td>
+              <td class="col-num num">{{ evento.productoPrecio | cop }}</td>
+              <td class="col-num num">{{ evento.stockAlMomento }}</td>
+              <td class="col-fecha">{{ fecha(evento.fecha) }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (pagina() && pagina()!.totalPaginas > 1) {
+      <div class="paginacion">
+        <button
+          class="btn btn-secundario btn-sm"
+          type="button"
+          [disabled]="pagina()!.primera"
+          (click)="irAPagina(numeroPagina() - 1)"
+        >
+          Anterior
+        </button>
+        <span class="num">
+          Pagina {{ pagina()!.pagina + 1 }} de {{ pagina()!.totalPaginas }}
+        </span>
+        <button
+          class="btn btn-secundario btn-sm"
+          type="button"
+          [disabled]="pagina()!.ultima"
+          (click)="irAPagina(numeroPagina() + 1)"
+        >
+          Siguiente
+        </button>
+      </div>
+    }
+  } @else if (!error()) {
+    <div class="vacio tarjeta">
+      <div class="vacio-titulo">Sin movimientos</div>
+      Cuando agregues, cambies o quites deseos, el rastro va quedando aqui.
+    </div>
+  }
+</div>
