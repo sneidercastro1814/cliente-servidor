@@ -1,0 +1,95 @@
+# =============================================================================
+# Prueba Tecnica Carvajal - Lista de Deseos
+# Levanta los tres contenedores: base de datos, API y SPA.
+#
+#   docker compose up --build
+#
+#   Aplicacion .......... http://localhost:4200
+#   API ................. http://localhost:8080/api/v1/products
+#   Swagger UI .......... http://localhost:8080/swagger-ui.html
+#   MySQL ............... localhost:3306
+#
+# Las credenciales de este archivo son de DESARROLLO. En un despliegue real van
+# por variables de entorno o por un gestor de secretos, nunca en el repositorio.
+# =============================================================================
+
+services:
+  # ---------------------------------------------------------------- Base de datos
+  mysql:
+    image: mysql:8.4
+    container_name: carvajal-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: RootCarvajal2026*
+      MYSQL_DATABASE: carvajal_wishlist
+      MYSQL_USER: wishlist_user
+      MYSQL_PASSWORD: Wishlist2026*
+      TZ: America/Bogota
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      # El backend no arranca hasta que MySQL responda de verdad.
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-pRootCarvajal2026*"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+    networks:
+      - carvajal
+
+  # ------------------------------------------------------------------ API REST
+  backend:
+    build:
+      context: ./backend
+    container_name: carvajal-backend
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: carvajal_wishlist
+      DB_USERNAME: wishlist_user
+      DB_PASSWORD: Wishlist2026*
+      JWT_SECRET: carvajal-wishlist-secreto-de-despliegue-local-2026-mas-de-32-bytes
+      JWT_EXPIRATION_MINUTES: 120
+      CORS_ALLOWED_ORIGINS: http://localhost:4200,http://localhost
+      TZ: America/Bogota
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    networks:
+      - carvajal
+
+  # --------------------------------------------------------------------- SPA
+  frontend:
+    build:
+      context: ./frontend
+    container_name: carvajal-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+    networks:
+      - carvajal
+
+volumes:
+  mysql_data:
+    name: carvajal_mysql_data
+
+networks:
+  carvajal:
+    name: carvajal-red
+    driver: bridge
