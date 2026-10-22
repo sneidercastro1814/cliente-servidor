@@ -1,0 +1,176 @@
+<div class="contenedor vista">
+  <div class="vista-cabecera">
+    <div>
+      <h1>{{ lista()?.nombre ?? 'Mi lista de deseos' }}</h1>
+      <p class="subtitulo">
+        @if (lista()) {
+          {{ lista()!.totalItems }} {{ lista()!.totalItems === 1 ? 'deseo' : 'deseos' }}
+          @if (lista()!.itemsConNotificacion > 0) {
+            &middot; {{ lista()!.itemsConNotificacion }} con problemas de stock
+          }
+        }
+      </p>
+    </div>
+    <button class="btn btn-secundario btn-sm" type="button" (click)="cargar()">Actualizar</button>
+  </div>
+
+  <!-- Requisito 3: notificacion de los deseos sin stock -->
+  @if (lista() && lista()!.notificaciones.length > 0) {
+    <div class="aviso aviso-advertencia" role="status">
+      <div>
+        <div class="aviso-titulo">
+          Atencion con
+          {{ lista()!.notificaciones.length === 1 ? 'un deseo' : lista()!.notificaciones.length + ' deseos' }}
+        </div>
+        <ul>
+          @for (notificacion of lista()!.notificaciones; track notificacion) {
+            <li>{{ notificacion }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  }
+
+  @if (aviso()) {
+    <div class="aviso aviso-ok" role="status">
+      <div>{{ aviso() }}</div>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="aviso aviso-peligro" role="alert">
+      <div>{{ error() }}</div>
+    </div>
+  }
+
+  @if (cargando()) {
+    <div class="cargando"><span class="girador"></span> Cargando tu lista...</div>
+  } @else if (lista() && lista()!.items.length > 0) {
+    <div class="deseos">
+      @for (item of lista()!.items; track item.id) {
+        <article class="deseo tarjeta" [class.deseo-alerta]="item.requiereNotificacion">
+          <div class="deseo-principal">
+            <div class="deseo-info">
+              <div class="deseo-distintivos">
+                <span [class]="'distintivo ' + claseEstado(item.estadoStock)">
+                  {{ etiquetaEstado(item.estadoStock) }}
+                </span>
+                <span [class]="'distintivo ' + clasePrioridad(item.prioridad)">
+                  Prioridad {{ item.prioridad.toLowerCase() }}
+                </span>
+                <span class="distintivo distintivo-gris">{{ item.producto.categoria.nombre }}</span>
+              </div>
+
+              <h3 class="deseo-nombre">{{ item.producto.nombre }}</h3>
+
+              <div class="deseo-datos num">
+                <span><strong>{{ item.producto.precio | cop }}</strong></span>
+                <span>Deseo: {{ item.cantidadDeseada }}</span>
+                <span>En stock: {{ item.producto.stock }}</span>
+                <span class="deseo-sku">SKU {{ item.producto.sku }}</span>
+              </div>
+
+              @if (item.requiereNotificacion) {
+                <div class="deseo-mensaje">{{ item.mensajeStock }}</div>
+              }
+
+              @if (item.nota) {
+                <div class="deseo-nota">&ldquo;{{ item.nota }}&rdquo;</div>
+              }
+            </div>
+
+            <div class="deseo-acciones">
+              @if (editandoId() !== item.id) {
+                <button
+                  class="btn btn-secundario btn-sm"
+                  type="button"
+                  (click)="abrirEdicion(item)"
+                >
+                  Editar
+                </button>
+                <button
+                  class="btn btn-peligro btn-sm"
+                  type="button"
+                  [disabled]="eliminandoId() === item.id"
+                  (click)="eliminar(item)"
+                >
+                  @if (eliminandoId() === item.id) {
+                    <span class="girador"></span>
+                  } @else {
+                    Eliminar
+                  }
+                </button>
+              }
+            </div>
+          </div>
+
+          <!-- Formulario de edicion en linea -->
+          @if (editandoId() === item.id) {
+            <div class="deseo-edicion">
+              <label class="campo-inline">
+                <span class="campo-etiqueta">Cantidad</span>
+                <input
+                  #inpCantidad
+                  class="entrada entrada-mini num"
+                  type="number"
+                  min="1"
+                  max="999"
+                  [value]="item.cantidadDeseada"
+                />
+              </label>
+
+              <label class="campo-inline">
+                <span class="campo-etiqueta">Prioridad</span>
+                <select #selPrioridad class="selector">
+                  <option value="ALTA" [selected]="item.prioridad === 'ALTA'">Alta</option>
+                  <option value="MEDIA" [selected]="item.prioridad === 'MEDIA'">Media</option>
+                  <option value="BAJA" [selected]="item.prioridad === 'BAJA'">Baja</option>
+                </select>
+              </label>
+
+              <label class="campo-inline campo-inline-ancho">
+                <span class="campo-etiqueta">Nota</span>
+                <input
+                  #inpNota
+                  class="entrada"
+                  type="text"
+                  maxlength="300"
+                  placeholder="Opcional"
+                  [value]="item.nota ?? ''"
+                />
+              </label>
+
+              <div class="deseo-edicion-botones">
+                <button
+                  class="btn btn-primario btn-sm"
+                  type="button"
+                  [disabled]="guardando()"
+                  (click)="guardar(item, inpCantidad.value, selPrioridad.value, inpNota.value)"
+                >
+                  @if (guardando()) {
+                    <span class="girador"></span>
+                    Guardando...
+                  } @else {
+                    Guardar
+                  }
+                </button>
+                <button
+                  class="btn btn-secundario btn-sm"
+                  type="button"
+                  (click)="cancelarEdicion()"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          }
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="vacio tarjeta">
+      <div class="vacio-titulo">Tu lista esta vacia</div>
+      Ve al catalogo y agrega los productos que te gustaria comprar mas adelante.
+    </div>
+  }
+</div>
