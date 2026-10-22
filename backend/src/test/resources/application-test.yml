@@ -1,0 +1,39 @@
+# =============================================================================
+# Perfil de pruebas.
+#
+# Se usa H2 en memoria y NO MySQL, para que `mvn test` corra sin levantar nada
+# y sin depender de Docker. El esquema lo genera Hibernate a partir de las
+# entidades (ddl-auto: create-drop) y Flyway queda apagado, porque los scripts
+# de migracion traen sintaxis especifica de MySQL.
+#
+# Nota para la sustentacion: el paso natural siguiente es Testcontainers, que
+# levanta un MySQL real en Docker y prueba tambien las migraciones de Flyway.
+# =============================================================================
+spring:
+  datasource:
+    url: jdbc:h2:mem:wishlist_test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+    show-sql: false
+
+  flyway:
+    enabled: false
+
+app:
+  jwt:
+    secret: clave-exclusiva-de-pruebas-carvajal-wishlist-2026-con-mas-de-32-bytes
+    expiration-minutes: 30
+    issuer: carvajal-wishlist-test
+  cors:
+    allowed-origins: http://localhost:4200
+
+logging:
+  level:
+    com.carvajal.wishlist: INFO
+    org.hibernate.SQL: WARN
