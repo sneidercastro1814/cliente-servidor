@@ -1,0 +1,55 @@
+.caja-login {
+  max-width: 420px;
+  margin: var(--esp-6) auto 0;
+}
+
+h1 {
+  margin-bottom: var(--esp-1);
+}
+
+.subtitulo {
+  color: var(--ink-suave);
+  font-size: 0.9rem;
+  margin-bottom: var(--esp-5);
+}
+
+.credenciales {
+  margin-top: var(--esp-4);
+  padding: var(--esp-4);
+  background: var(--surface-alt);
+  border: 1px dashed var(--line-fuerte);
+  border-radius: var(--radio);
+  font-size: 0.82rem;
+  color: var(--ink-medio);
+}
+
+.credenciales-titulo {
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--esp-2);
+}
+
+.credenciales dl {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--esp-1) var(--esp-3);
+  align-items: baseline;
+}
+
+.credenciales dt {
+  font-weight: 600;
+  color: var(--ink-suave);
+}
+
+.credenciales dd {
+  margin: 0;
+}
+
+.credenciales code {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.05rem 0.3rem;
+  font-size: 0.78rem;
+}

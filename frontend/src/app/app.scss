@@ -1,0 +1,174 @@
+/* Cabecera, navegacion y pie del cascaron de la aplicacion */
+
+.cabecera {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.cabecera-interior {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-5);
+  min-height: 62px;
+}
+
+/* ------------------------------------------------------------------- Marca */
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.marca-sigla {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.marca-texto {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.marca-texto strong {
+  font-size: 0.95rem;
+}
+
+.marca-texto small {
+  font-size: 0.72rem;
+  color: var(--ink-suave);
+}
+
+/* -------------------------------------------------------------- Navegacion */
+
+.navegacion {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-2);
+  margin-left: auto;
+}
+
+.navegacion a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-2);
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radio-sm);
+  color: var(--ink-medio);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.navegacion a:hover {
+  background: var(--surface-alt);
+  color: var(--brand);
+}
+
+.navegacion a.activo {
+  background: var(--brand-suave);
+  color: var(--brand-oscuro);
+}
+
+.contador {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: var(--line-fuerte);
+  color: var(--ink);
+  font-size: 0.7rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.contador-alerta {
+  background: var(--advertencia);
+  color: #fff;
+}
+
+/* ----------------------------------------------------------------- Sesion */
+
+.sesion {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  flex-shrink: 0;
+}
+
+.sesion-usuario {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-medio);
+  max-width: 11rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------- Franja alerta */
+
+.franja-alerta {
+  background: var(--advertencia-suave);
+  border-bottom: 1px solid #eccd8f;
+  color: var(--advertencia);
+  font-size: 0.86rem;
+  font-weight: 600;
+  padding: var(--esp-3) 0;
+}
+
+.franja-alerta a {
+  color: var(--advertencia);
+  text-decoration: underline;
+  margin-left: var(--esp-2);
+}
+
+/* -------------------------------------------------------------------- Pie */
+
+.pie {
+  border-top: 1px solid var(--line);
+  padding: var(--esp-5) 0;
+  color: var(--ink-suave);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------- Responsive */
+
+@media (max-width: 760px) {
+  .cabecera-interior {
+    flex-wrap: wrap;
+    gap: var(--esp-3);
+    padding-top: var(--esp-3);
+    padding-bottom: var(--esp-3);
+  }
+
+  .navegacion {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    overflow-x: auto;
+  }
+
+  .sesion {
+    margin-left: auto;
+  }
+
+  .marca-texto small {
+    display: none;
+  }
+}

@@ -1,0 +1,58 @@
+<header class="cabecera">
+  <div class="contenedor cabecera-interior">
+    <a class="marca" routerLink="/catalogo">
+      <span class="marca-sigla">C</span>
+      <span class="marca-texto">
+        <strong>Carvajal</strong>
+        <small>Lista de deseos</small>
+      </span>
+    </a>
+
+    <nav class="navegacion" aria-label="Navegacion principal">
+      <a routerLink="/catalogo" routerLinkActive="activo">Catalogo</a>
+
+      @if (autenticado()) {
+        <a routerLink="/deseos" routerLinkActive="activo">
+          Mis deseos
+          @if (totalDeseos() > 0) {
+            <span class="contador" [class.contador-alerta]="totalAlertas() > 0">
+              {{ totalDeseos() }}
+            </span>
+          }
+        </a>
+        <a routerLink="/historico" routerLinkActive="activo">Historico</a>
+      }
+    </nav>
+
+    <div class="sesion">
+      @if (autenticado()) {
+        <span class="sesion-usuario" title="{{ usuario()?.email }}">
+          {{ usuario()?.nombre }}
+        </span>
+        <button type="button" class="btn btn-secundario btn-sm" (click)="salir()">Salir</button>
+      } @else {
+        <a class="btn btn-primario btn-sm" routerLink="/login">Ingresar</a>
+      }
+    </div>
+  </div>
+</header>
+
+@if (autenticado() && totalAlertas() > 0) {
+  <div class="franja-alerta">
+    <div class="contenedor">
+      Tienes {{ totalAlertas() }}
+      {{ totalAlertas() === 1 ? 'deseo con problema de stock' : 'deseos con problemas de stock' }}.
+      <a routerLink="/deseos">Ver mi lista</a>
+    </div>
+  </div>
+}
+
+<main>
+  <router-outlet />
+</main>
+
+<footer class="pie">
+  <div class="contenedor">
+    Prueba tecnica &mdash; Desarrollador Full Stack Expert &middot; Spring Boot + Angular + MySQL
+  </div>
+</footer>

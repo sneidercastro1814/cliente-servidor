@@ -1,0 +1,433 @@
+/* =============================================================================
+   Estilos globales — Lista de Deseos Carvajal
+
+   Un unico sistema de tokens para color, espaciado y tipografia, de modo que
+   todas las vistas se vean como una sola aplicacion.
+   ========================================================================== */
+
+:root {
+  /* Color */
+  --canvas: #f5f7fa;
+  --surface: #ffffff;
+  --surface-alt: #fbfcfe;
+  --line: #e3e7f0;
+  --line-fuerte: #cdd4e3;
+
+  --ink: #16213a;
+  --ink-medio: #475370;
+  --ink-suave: #6b7694;
+
+  --brand: #2b4c8c;
+  --brand-oscuro: #1e3767;
+  --brand-suave: #eaf0fb;
+
+  --ok: #16744a;
+  --ok-suave: #e4f4ec;
+  --advertencia: #8a5600;
+  --advertencia-suave: #fdf1da;
+  --peligro: #a02222;
+  --peligro-suave: #fceaea;
+
+  /* Espaciado */
+  --esp-1: 0.25rem;
+  --esp-2: 0.5rem;
+  --esp-3: 0.75rem;
+  --esp-4: 1rem;
+  --esp-5: 1.5rem;
+  --esp-6: 2rem;
+  --esp-7: 3rem;
+
+  /* Forma */
+  --radio: 10px;
+  --radio-sm: 6px;
+  --radio-lg: 16px;
+  --sombra: 0 1px 2px rgba(22, 33, 58, 0.06), 0 4px 12px rgba(22, 33, 58, 0.05);
+  --sombra-alta: 0 8px 28px rgba(22, 33, 58, 0.12);
+
+  --ancho-max: 1180px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: 1.6rem;
+}
+h2 {
+  font-size: 1.2rem;
+}
+h3 {
+  font-size: 1rem;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+/* Los numeros (precios, stock) con ancho fijo para que las columnas cuadren */
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------- Estructura */
+
+.contenedor {
+  max-width: var(--ancho-max);
+  margin: 0 auto;
+  padding: 0 var(--esp-5);
+}
+
+@media (max-width: 640px) {
+  .contenedor {
+    padding: 0 var(--esp-4);
+  }
+}
+
+.vista {
+  padding: var(--esp-6) 0 var(--esp-7);
+}
+
+.vista-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--esp-4);
+  margin-bottom: var(--esp-5);
+}
+
+.vista-cabecera .subtitulo {
+  color: var(--ink-suave);
+  font-size: 0.9rem;
+  margin-top: var(--esp-1);
+}
+
+/* -------------------------------------------------------------------- Tarjeta */
+
+.tarjeta {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+}
+
+.tarjeta-cuerpo {
+  padding: var(--esp-5);
+}
+
+/* ------------------------------------------------------------------- Botones */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-2);
+  border: 1px solid transparent;
+  border-radius: var(--radio-sm);
+  padding: 0.5rem 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primario {
+  background: var(--brand);
+  color: #fff;
+}
+.btn-primario:hover:not(:disabled) {
+  background: var(--brand-oscuro);
+}
+
+.btn-secundario {
+  background: var(--surface);
+  border-color: var(--line-fuerte);
+  color: var(--ink-medio);
+}
+.btn-secundario:hover:not(:disabled) {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.btn-peligro {
+  background: transparent;
+  border-color: var(--line-fuerte);
+  color: var(--peligro);
+}
+.btn-peligro:hover:not(:disabled) {
+  background: var(--peligro-suave);
+  border-color: var(--peligro);
+}
+
+.btn-bloque {
+  width: 100%;
+}
+
+.btn-sm {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+/* --------------------------------------------------------------- Formularios */
+
+.campo {
+  display: block;
+  margin-bottom: var(--esp-4);
+}
+
+.campo-etiqueta {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-medio);
+  margin-bottom: var(--esp-2);
+}
+
+.entrada,
+.selector {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line-fuerte);
+  border-radius: var(--radio-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.92rem;
+  font-family: inherit;
+}
+
+.entrada:focus,
+.selector:focus {
+  outline: 2px solid var(--brand-suave);
+  outline-offset: 0;
+  border-color: var(--brand);
+}
+
+.entrada.invalida {
+  border-color: var(--peligro);
+}
+
+.campo-error {
+  display: block;
+  color: var(--peligro);
+  font-size: 0.78rem;
+  margin-top: var(--esp-1);
+}
+
+.entrada-mini {
+  width: 5.5rem;
+}
+
+/* -------------------------------------------------------------- Distintivos */
+
+.distintivo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.18rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.distintivo-ok {
+  background: var(--ok-suave);
+  color: var(--ok);
+}
+.distintivo-advertencia {
+  background: var(--advertencia-suave);
+  color: var(--advertencia);
+}
+.distintivo-peligro {
+  background: var(--peligro-suave);
+  color: var(--peligro);
+}
+.distintivo-neutro {
+  background: var(--brand-suave);
+  color: var(--brand);
+}
+.distintivo-gris {
+  background: #eef0f5;
+  color: var(--ink-suave);
+}
+
+/* ------------------------------------------------------------------- Avisos */
+
+.aviso {
+  display: flex;
+  gap: var(--esp-3);
+  padding: var(--esp-4);
+  border-radius: var(--radio);
+  border: 1px solid transparent;
+  margin-bottom: var(--esp-5);
+  font-size: 0.9rem;
+}
+
+.aviso-titulo {
+  font-weight: 700;
+  margin-bottom: var(--esp-1);
+}
+
+.aviso-advertencia {
+  background: var(--advertencia-suave);
+  border-color: #eccd8f;
+  color: var(--advertencia);
+}
+
+.aviso-peligro {
+  background: var(--peligro-suave);
+  border-color: #eeb4b4;
+  color: var(--peligro);
+}
+
+.aviso-ok {
+  background: var(--ok-suave);
+  border-color: #a8d8c0;
+  color: var(--ok);
+}
+
+.aviso-info {
+  background: var(--brand-suave);
+  border-color: #bed2f0;
+  color: var(--brand-oscuro);
+}
+
+.aviso ul {
+  margin: var(--esp-2) 0 0;
+  padding-left: 1.1rem;
+}
+
+/* ------------------------------------------------------------ Estado vacio */
+
+.vacio {
+  text-align: center;
+  padding: var(--esp-7) var(--esp-5);
+  color: var(--ink-suave);
+}
+
+.vacio-titulo {
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: var(--esp-2);
+}
+
+/* ---------------------------------------------------------------- Cargando */
+
+.cargando {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-3);
+  color: var(--ink-suave);
+  padding: var(--esp-5);
+  font-size: 0.9rem;
+}
+
+.girador {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--line-fuerte);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: girar 0.7s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --------------------------------------------------------------- Paginacion */
+
+.paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-4);
+  margin-top: var(--esp-6);
+  font-size: 0.86rem;
+  color: var(--ink-suave);
+}
+
+/* ------------------------------------------------------------------- Tablas */
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.tabla th {
+  text-align: left;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-suave);
+  padding: var(--esp-3) var(--esp-4);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.tabla td {
+  padding: var(--esp-4);
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.tabla tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla-envoltura {
+  overflow-x: auto;
+}
+
+.sr-solo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
