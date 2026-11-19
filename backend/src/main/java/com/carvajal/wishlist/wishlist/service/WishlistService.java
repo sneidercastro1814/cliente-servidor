@@ -127,6 +127,11 @@ public class WishlistService {
                 request.nota()
         ));
 
+        // Mantiene sincronizados los dos lados de la relacion: sin esto, la
+        // coleccion en memoria de la lista queda desactualizada dentro de la
+        // misma sesion de Hibernate.
+        lista.agregarItem(item);
+
         registrarHistorico(AccionHistorial.AGREGADO, lista, producto, user, item.getCantidadDeseada());
 
         return WishlistItemResponse.de(item);
@@ -169,6 +174,9 @@ public class WishlistService {
         registrarHistorico(AccionHistorial.ELIMINADO, lista, item.getProduct(),
                 user, item.getCantidadDeseada());
 
+        // Se quita tambien de la coleccion en memoria para que la lista no siga
+        // mostrando un deseo que ya se borro (orphanRemoval hace el DELETE).
+        lista.getItems().remove(item);
         itemRepository.delete(item);
     }
 

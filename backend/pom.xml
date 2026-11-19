@@ -90,9 +90,13 @@
         </dependency>
 
         <!-- ====== Migraciones versionadas de BD ====== -->
+        <!--
+          En Spring Boot 4 la configuracion automatica de Flyway vive en su
+          propio starter: solo con flyway-core las migraciones no se ejecutan.
+        -->
         <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-flyway</artifactId>
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -110,6 +114,24 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--
+          Spring Boot 4 separo MockMvc en su propio modulo de pruebas:
+          aqui vive @AutoConfigureMockMvc.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--
+          Integracion de Spring Security con MockMvc en Spring Boot 4: sin esto,
+          @WithMockUser se ignora y las peticiones de prueba salen con 401.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-test</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
